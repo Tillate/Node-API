@@ -3,6 +3,8 @@ const router = express.Router();
 const ObjectID = require('mongoose').Types.ObjectId;
 const { PostsModel } = require('../models/postsModel');
 
+
+//ROUTE GET
 router.get('/', (req, res) => {
     PostsModel.find((err, docs) =>{
         if (!err) res.send(docs);
@@ -10,6 +12,7 @@ router.get('/', (req, res) => {
     })
 });
 
+//ROUTE POST
 router.post('/', (req, res) => {
     const newRecord = new PostsModel ({
         author: req.body.author,
@@ -22,7 +25,7 @@ router.post('/', (req, res) => {
     })
 });
 
-//Update du body
+//ROUTE PUT
 router.put("/:id", (req, res) => {
     if (!ObjectID.isValid(req.params.id))
         return res.status(400).send("Id unknown :" + req.params.id)
@@ -38,6 +41,20 @@ router.put("/:id", (req, res) => {
         (err, docs) => {
             if (!err) res.send(docs);
             else console.log("Update error : " + err);
+        }
+    )
+});
+
+//ROUTE DELETE
+router.delete("/:id", (req, res) => {
+    if (!ObjectID.isValid(req.params.id))
+        return res.status(400).send("Id unknown :" + req.params.id)
+
+    PostsModel.findByIdAndRemove(
+        req.params.id,
+        (err, docs) => {
+            if (!err) res.send(docs);
+            else console.log("Delete error : " + err);
         }
     )
 });
