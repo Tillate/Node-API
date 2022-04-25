@@ -5,6 +5,7 @@ const postsControllers = require('./controllers/postsController');
 const bodyParser = require('body-parser');
 
 
+
 app.use(bodyParser.json());
 app.use('/posts', postsControllers);
 
